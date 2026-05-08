@@ -4,10 +4,13 @@
   "description": "Load testing software for api",
   "main": "app.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon src/app.ts",
+    "test": "cross-env NODE_ENV=test vitest run",
+    "test:watch": "cross-env NODE_ENV=test vitest",
+    "test:integration": "cross-env NODE_ENV=test vitest run tests/integration",
+    "test:coverage": "cross-env NODE_ENV=test vitest run --coverage",
+    "dev": "nodemon src/server.ts",
     "build": "tsc",
-    "start": "node build/app.js"
+    "start": "node build/server.js"
   },
   "repository": {
     "type": "git",
@@ -47,10 +50,14 @@
     "@types/morgan": "^1.9.10",
     "@types/node": "^25.6.0",
     "@types/nodemailer": "^8.0.0",
+    "@types/supertest": "^7.2.0",
+    "cross-env": "^10.1.0",
     "morgan": "^1.10.1",
     "nodemon": "^3.1.14",
     "pino-pretty": "^13.1.3",
+    "supertest": "^7.2.2",
     "ts-node": "^10.9.2",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.5"
   }
 }

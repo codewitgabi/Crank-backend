@@ -16,6 +16,7 @@ export const LOG_LEVEL = process.env.LOG_LEVEL as
 export const SERVICE_NAME =
   (process.env.SERVICE_NAME as string) || "crank-backend";
 export const DATABASE_URI = process.env.DATABASE_URI as string;
+export const DATABASE_URI_TEST = process.env.DATABASE_URI_TEST as string;
 export const SMTP_HOST = process.env.SMTP_HOST as string;
 export const EMAIL_PORT = process.env.EMAIL_PORT as string;
 export const EMAIL_USER = process.env.EMAIL_USER as string;
