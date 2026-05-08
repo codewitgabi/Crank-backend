@@ -13,6 +13,7 @@ import sysLogger from "./utils/logger";
 import { rateLimit } from "express-rate-limit";
 import helmet from "helmet";
 import authRoutes from "./routes/auth.route";
+import projectRoutes from "./routes/project.route";
 
 const app: Express = express();
 
@@ -50,6 +51,7 @@ app.use(compression());
 
 // Routes
 app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/projects", projectRoutes);
 
 app.get("/", (req: Request, res: Response) => {
   const response = SuccessResponse({
