@@ -1,6 +1,5 @@
 import express, { Express, Request, Response } from "express";
 import logger from "morgan";
-import connectDb from "./config/db.config";
 import {
   RequestErrorHandler,
   NotFoundErrorHandler,
@@ -9,13 +8,12 @@ import cors from "cors";
 import { SuccessResponse } from "./utils/response";
 import { StatusCodes } from "http-status-codes";
 import compression from "compression";
-import sysLogger from "./utils/logger";
 import { rateLimit } from "express-rate-limit";
 import helmet from "helmet";
 import authRoutes from "./routes/auth.route";
 import projectRoutes from "./routes/project.route";
 
-const app: Express = express();
+export const app: Express = express();
 
 // Trust proxy - required when behind reverse proxy (Vercel, AWS, nginx, etc.)
 // This ensures express-rate-limit correctly identifies users by their real IP
@@ -67,19 +65,3 @@ app.get("/", (req: Request, res: Response) => {
 
 app.use(NotFoundErrorHandler);
 app.use(RequestErrorHandler);
-
-// Start server using IIFE
-
-(() => {
-  connectDb()
-    .then(() => {
-      sysLogger.info("Database connection successful");
-
-      app.listen(app.get("port"), () => {
-        sysLogger.info(`Server is running on port ${app.get("port")}`);
-      });
-    })
-    .catch((e) => {
-      sysLogger.error(`An error occurred connecting to database: ${e}`);
-    });
-})();
