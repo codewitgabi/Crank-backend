@@ -4,12 +4,18 @@ export default defineConfig({
   test: {
     environment: "node",
     globals: true,
-    setupFiles: ["./tests/setup/env.setup.ts", "./tests/setup/db.setup.ts"],
+    setupFiles: [
+      "./tests/setup/env.setup.ts",
+      "./tests/setup/mocks.setup.ts",
+      "./tests/setup/db.setup.ts",
+    ],
     include: ["tests/integration/**/*.test.ts"],
     reporters: ["default"],
     testTimeout: 30000,
     hookTimeout: 30000,
     isolate: true,
+    // Integration tests share one DB; parallel files race on afterEach(deleteMany).
+    fileParallelism: false,
     sequence: {
       concurrent: false,
     },

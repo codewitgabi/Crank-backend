@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { afterAll, afterEach, beforeAll } from "vitest";
 import connectDb from "../../src/config/db.config";
 
 beforeAll(async () => {
