@@ -47,3 +47,9 @@ export class ForbiddenError extends ApiError {
     super(message, StatusCodes.FORBIDDEN, errors);
   }
 }
+
+export class ServiceUnavailableError extends ApiError {
+  constructor(message = "Service Unavailable", errors: Array<unknown> = []) {
+    super(message, StatusCodes.SERVICE_UNAVAILABLE, errors);
+  }
+}

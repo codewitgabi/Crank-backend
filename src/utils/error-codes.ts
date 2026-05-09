@@ -1,11 +1,19 @@
-export type IErrorStatus = 400 | 401 | 403 | 404 | 405 | 500;
+export type IErrorStatus =
+  | 400
+  | 401
+  | 403
+  | 404
+  | 405
+  | 500
+  | 503;
 export type IErrorCode =
   | "INVALID_REQUEST"
   | "UNAUTHORIZED"
   | "FORBIDDEN"
   | "RESOURCE_NOT_FOUND"
   | "METHOD_NOT_ALLOWED"
-  | "INTERNAL_SERVER_ERROR";
+  | "INTERNAL_SERVER_ERROR"
+  | "SERVICE_UNAVAILABLE";
 
 const errorCodes = {
   400: "INVALID_REQUEST",
@@ -14,6 +22,7 @@ const errorCodes = {
   404: "RESOURCE_NOT_FOUND",
   405: "METHOD_NOT_ALLOWED",
   500: "INTERNAL_SERVER_ERROR",
+  503: "SERVICE_UNAVAILABLE",
 };
 
 export default errorCodes;

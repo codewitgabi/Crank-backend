@@ -26,6 +26,7 @@ import {
   ProjectIdParamSchema,
   UpdateProjectSchema,
 } from "../validators/project.validator";
+import testCaseRoutes from "./testCase.route";
 
 const router = Router();
 
@@ -37,6 +38,7 @@ router.get(
   listMyPendingInvitations,
 );
 router.post("/", authenticate, CreateProjectSchema, createProject);
+router.use("/:projectId/test-cases", testCaseRoutes);
 router.get("/:projectId", authenticate, ProjectIdParamSchema, getProject);
 router.patch("/:projectId", authenticate, UpdateProjectSchema, updateProject);
 router.delete("/:projectId", authenticate, ProjectIdParamSchema, deleteProject);
