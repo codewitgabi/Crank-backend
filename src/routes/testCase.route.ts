@@ -3,9 +3,11 @@ import { authenticate } from "../middlewares/auth.middleware";
 import {
   createTestCase,
   deleteTestCase,
+  listTestCases,
   runTestCase,
   updateTestCase,
 } from "../controllers/testCase.controller";
+import { ProjectIdParamSchema } from "../validators/project.validator";
 import {
   CreateTestCaseSchema,
   ProjectAndTestCaseParamSchema,
@@ -14,6 +16,7 @@ import {
 
 const router = Router({ mergeParams: true });
 
+router.get("/", authenticate, ProjectIdParamSchema, listTestCases);
 router.post("/", authenticate, CreateTestCaseSchema, createTestCase);
 router.patch(
   "/:testCaseId",
@@ -35,4 +38,3 @@ router.post(
 );
 
 export default router;
-

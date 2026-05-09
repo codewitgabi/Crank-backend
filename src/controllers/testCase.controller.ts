@@ -3,6 +3,15 @@ import catchAsync from "../utils/catch-async";
 import { getAuthenticatedUser, getRouteParam } from "../utils/request-helpers";
 import testCaseService from "../services/testCase.service";
 
+export const listTestCases = catchAsync(async (req: Request, res: Response) => {
+  const user = getAuthenticatedUser(req);
+  const response = await testCaseService.listTestCasesForProject(
+    user.userId,
+    getRouteParam(req.params.projectId, "projectId"),
+  );
+  return res.status(response.httpStatus).json(response);
+});
+
 export const createTestCase = catchAsync(
   async (req: Request, res: Response) => {
     const user = getAuthenticatedUser(req);

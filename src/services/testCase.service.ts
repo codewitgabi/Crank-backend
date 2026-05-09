@@ -43,6 +43,37 @@ class TestCaseService {
     return project;
   }
 
+  async listTestCasesForProject(userId: string, projectId: string) {
+    const project = await this.getProjectOrThrow(projectId);
+    this.ensureCanRead(project, userId);
+
+    const rows = await TestCase.find({
+      project: projectId,
+      deletedAt: null,
+    })
+      .select(
+        "name description tags createdAt updatedAt lastRunAt",
+      )
+      .sort({ updatedAt: -1 })
+      .lean();
+
+    const data = rows.map((row) => ({
+      id: row._id,
+      name: row.name,
+      description: row.description ?? null,
+      tags: row.tags,
+      createdAt: row.createdAt,
+      updatedAt: row.updatedAt,
+      lastRunAt: row.lastRunAt ?? null,
+    }));
+
+    return SuccessResponse({
+      message: "Test cases fetched successfully",
+      data,
+      httpStatus: StatusCodes.OK,
+    });
+  }
+
   private async getTestCaseOrThrow(projectId: string, testCaseId: string) {
     const testCase = await TestCase.findOne({
       _id: testCaseId,
