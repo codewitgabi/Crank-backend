@@ -117,6 +117,32 @@ class TestCaseService {
     });
   }
 
+  async getTestRunSummaryDetail(
+    userId: string,
+    projectId: string,
+    testCaseId: string,
+    summaryId: string,
+  ) {
+    const project = await this.getProjectOrThrow(projectId);
+    this.ensureCanRead(project, userId);
+
+    const summary = await TestRunSummary.findOne({
+      _id: summaryId,
+      project: projectId,
+      testCase: testCaseId,
+    }).lean();
+
+    if (!summary) {
+      throw new NotFoundError("Test run summary not found");
+    }
+
+    return SuccessResponse({
+      message: "Test run summary fetched successfully",
+      data: summary,
+      httpStatus: StatusCodes.OK,
+    });
+  }
+
   private async getTestCaseOrThrow(projectId: string, testCaseId: string) {
     const testCase = await TestCase.findOne({
       _id: testCaseId,

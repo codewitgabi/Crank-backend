@@ -64,6 +64,13 @@ export const ProjectAndTestCaseParamSchema = [
   validateRequest,
 ];
 
+export const TestRunSummaryDetailParamSchema = [
+  param("projectId").isMongoId().withMessage("Invalid project id"),
+  param("testCaseId").isMongoId().withMessage("Invalid test case id"),
+  param("summaryId").isMongoId().withMessage("Invalid summary id"),
+  validateRequest,
+];
+
 export const CreateTestCaseSchema = [
   param("projectId").isMongoId().withMessage("Invalid project id"),
   body("name")

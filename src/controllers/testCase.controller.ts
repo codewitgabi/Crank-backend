@@ -22,6 +22,19 @@ export const getTestCase = catchAsync(async (req: Request, res: Response) => {
   return res.status(response.httpStatus).json(response);
 });
 
+export const getTestRunSummaryDetail = catchAsync(
+  async (req: Request, res: Response) => {
+    const user = getAuthenticatedUser(req);
+    const response = await testCaseService.getTestRunSummaryDetail(
+      user.userId,
+      getRouteParam(req.params.projectId, "projectId"),
+      getRouteParam(req.params.testCaseId, "testCaseId"),
+      getRouteParam(req.params.summaryId, "summaryId"),
+    );
+    return res.status(response.httpStatus).json(response);
+  },
+);
+
 export const createTestCase = catchAsync(
   async (req: Request, res: Response) => {
     const user = getAuthenticatedUser(req);
