@@ -3,6 +3,7 @@ import { StatusCodes } from "http-status-codes";
 import { Types } from "mongoose";
 import Project, { IProject, ProjectRole } from "../models/project.model";
 import TestCase from "../models/testCase.model";
+import TestRunSummary from "../models/testRunSummary.model";
 import {
   BadRequestError,
   ForbiddenError,
@@ -70,6 +71,48 @@ class TestCaseService {
     return SuccessResponse({
       message: "Test cases fetched successfully",
       data,
+      httpStatus: StatusCodes.OK,
+    });
+  }
+
+  async getTestCaseWithSummaries(
+    userId: string,
+    projectId: string,
+    testCaseId: string,
+  ) {
+    const project = await this.getProjectOrThrow(projectId);
+    this.ensureCanRead(project, userId);
+
+    const testCase = await TestCase.findOne({
+      _id: testCaseId,
+      project: projectId,
+      deletedAt: null,
+    }).lean();
+
+    if (!testCase) {
+      throw new NotFoundError("Test case not found");
+    }
+
+    const summaryDocs = await TestRunSummary.find({
+      testCase: testCaseId,
+      project: projectId,
+    })
+      .select("createdAt updatedAt")
+      .sort({ createdAt: -1 })
+      .lean();
+
+    const summaries = summaryDocs.map((s) => ({
+      id: s._id,
+      createdAt: s.createdAt,
+      updatedAt: s.updatedAt,
+    }));
+
+    return SuccessResponse({
+      message: "Test case fetched successfully",
+      data: {
+        ...testCase,
+        summaries,
+      },
       httpStatus: StatusCodes.OK,
     });
   }

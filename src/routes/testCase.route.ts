@@ -3,6 +3,7 @@ import { authenticate } from "../middlewares/auth.middleware";
 import {
   createTestCase,
   deleteTestCase,
+  getTestCase,
   listTestCases,
   runTestCase,
   updateTestCase,
@@ -18,6 +19,12 @@ const router = Router({ mergeParams: true });
 
 router.get("/", authenticate, ProjectIdParamSchema, listTestCases);
 router.post("/", authenticate, CreateTestCaseSchema, createTestCase);
+router.get(
+  "/:testCaseId",
+  authenticate,
+  ProjectAndTestCaseParamSchema,
+  getTestCase,
+);
 router.patch(
   "/:testCaseId",
   authenticate,
