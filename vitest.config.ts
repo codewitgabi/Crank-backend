@@ -7,6 +7,7 @@ export default defineConfig({
     setupFiles: [
       "./tests/setup/env.setup.ts",
       "./tests/setup/mocks.setup.ts",
+      "./tests/setup/test-run-mocks.setup.ts",
       "./tests/setup/db.setup.ts",
     ],
     include: ["tests/integration/**/*.test.ts"],
