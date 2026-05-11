@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/")({
-  component: () => <h1>Crank</h1>,
+  component: () => <h1 className="text-3xl font-bold underline">Crank</h1>,
 });
