@@ -11,7 +11,7 @@ import {
 } from "../utils/api.errors";
 import { SuccessResponse } from "../utils/response";
 import { enqueueTestRun, mapQueuedJob } from "../queues/testRun.queue";
-import { executeTestRunAndPersist } from "../services/testRunExecution.service";
+import { executeTestRunAndPersist } from "./testRunExecution.service";
 import sysLogger from "../utils/logger";
 
 type TestCasePayload = Record<string, unknown>;
