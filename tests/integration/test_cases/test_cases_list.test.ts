@@ -105,8 +105,8 @@ describe("GET /api/v1/projects/:projectId/test-cases", () => {
 
     expect(list.status).toBe(StatusCodes.OK);
     expect(
-      (list.body.data as unknown[]).some(
-        (r: { name: string }) => (r as { name: string }).name === "Soon Gone",
+      (list.body.data as Array<{ name?: string }>).some(
+        (r) => r.name === "Soon Gone",
       ),
     ).toBe(false);
   });
