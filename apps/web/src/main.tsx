@@ -1,19 +1,20 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { RouterProvider, createRouter } from "@tanstack/react-router";
-import { routeTree } from "./routeTree.gen";
+import { GoogleOAuthProvider } from "@react-oauth/google";
+import { RouterProvider } from "react-router-dom";
+import { router } from "./router";
 import "./index.css";
 
-const router = createRouter({ routeTree });
+const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID ?? "";
 
-declare module "@tanstack/react-router" {
-  interface Register {
-    router: typeof router;
-  }
-}
+const app = googleClientId ? (
+  <GoogleOAuthProvider clientId={googleClientId}>
+    <RouterProvider router={router} />
+  </GoogleOAuthProvider>
+) : (
+  <RouterProvider router={router} />
+);
 
 createRoot(document.getElementById("root")!).render(
-  <StrictMode>
-    <RouterProvider router={router} />
-  </StrictMode>,
+  <StrictMode>{app}</StrictMode>,
 );
