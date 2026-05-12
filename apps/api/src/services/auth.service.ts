@@ -9,6 +9,7 @@ import transporter from "../config/mail.config";
 import {
   GOOGLE_CLIENT_ID,
   GITHUB_CLIENT_ID,
+  GITHUB_CLIENT_SECRET,
   JWT_EXPIRE,
   JWT_REFRESH_EXPIRE,
   JWT_REFRESH_SECRET,
@@ -170,10 +171,6 @@ class AuthService {
       throw new UnauthorizedError(
         "GitHub account must have a verified primary email",
       );
-    }
-
-    if (GITHUB_CLIENT_ID && !accessToken.startsWith("gh")) {
-      // Basic token-shape check to prevent accidental wrong token type.
     }
 
     return {
@@ -432,6 +429,49 @@ class AuthService {
   async loginWithGithub(accessToken: string) {
     const profile = await this.verifyGithubToken(accessToken);
     return this.loginOrCreateOAuthUser(profile);
+  }
+
+  async exchangeGithubOAuthCode(code: string, redirectUri: string) {
+    if (!GITHUB_CLIENT_ID || !GITHUB_CLIENT_SECRET) {
+      throw new BadRequestError(
+        "GitHub OAuth code exchange is not configured (set GITHUB_CLIENT_ID and GITHUB_CLIENT_SECRET)",
+      );
+    }
+
+    const body = new URLSearchParams({
+      client_id: GITHUB_CLIENT_ID,
+      client_secret: GITHUB_CLIENT_SECRET,
+      code,
+      redirect_uri: redirectUri,
+    });
+
+    const tokenRes = await fetch(
+      "https://github.com/login/oauth/access_token",
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: body.toString(),
+      },
+    );
+
+    const tokenJson = (await tokenRes.json()) as {
+      access_token?: string;
+      error?: string;
+      error_description?: string;
+    };
+
+    if (!tokenJson.access_token) {
+      throw new UnauthorizedError(
+        tokenJson.error_description ||
+          tokenJson.error ||
+          "GitHub code exchange failed",
+      );
+    }
+
+    return this.loginWithGithub(tokenJson.access_token);
   }
 
   async refreshToken(refreshToken: string) {

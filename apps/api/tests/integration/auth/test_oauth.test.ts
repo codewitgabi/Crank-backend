@@ -44,4 +44,12 @@ describe("POST /api/v1/auth/oauth/*", () => {
     expect(response.status).toBe(400);
     expect(response.body.error.message).toBe("Validation failed");
   });
+
+  it("fails validation for github oauth exchange without code", async () => {
+    const response = await testClient()
+      .post("/api/v1/auth/oauth/github/exchange")
+      .send({ redirectUri: "http://localhost:5173/auth/github/callback" });
+    expect(response.status).toBe(400);
+    expect(response.body.error.message).toBe("Validation failed");
+  });
 });

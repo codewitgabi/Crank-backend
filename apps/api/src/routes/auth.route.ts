@@ -3,6 +3,7 @@ import {
   changePassword,
   forgotPassword,
   githubLogin,
+  githubOAuthExchange,
   googleLogin,
   login,
   logout,
@@ -19,6 +20,7 @@ import {
   ChangePasswordSchema,
   EmailVerificationSchema,
   ForgotPasswordSchema,
+  GithubExchangeSchema,
   GithubLoginSchema,
   GoogleLoginSchema,
   LoginSchema,
@@ -41,6 +43,7 @@ router.post("/verify-otp", VerifyOTPSchema, verifyOTP);
 router.post("/register", RegisterSchema, register);
 router.post("/login", LoginSchema, login);
 router.post("/oauth/google", GoogleLoginSchema, googleLogin);
+router.post("/oauth/github/exchange", GithubExchangeSchema, githubOAuthExchange);
 router.post("/oauth/github", GithubLoginSchema, githubLogin);
 router.post("/refresh-token", RefreshTokenSchema, refreshToken);
 router.post("/logout", LogoutSchema, logout);

@@ -68,6 +68,8 @@ Environment variables are loaded via **dotenv** (`src/utils/constants.ts`). Typi
 | `REDIS_HOST`, `REDIS_PORT` | Redis broker (required for enqueue path) |
 | `REDIS_USERNAME`, `REDIS_PASSWORD` | Optional Redis ACL |
 | `SMTP_*`, `FRONTEND_URL`, etc. | Mail and product URLs as needed |
+| `GOOGLE_CLIENT_ID` | Google Sign-In — must match the **Web** client used by the SPA (`aud` on `id_token`) |
+| `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET` | GitHub OAuth app — **secret** is required for `POST /api/v1/auth/oauth/github/exchange` (authorization code → access token) |
 
 Treat secrets as **classified**: never commit `.env`; use vault or CI secrets in deployment.
 

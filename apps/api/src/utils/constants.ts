@@ -28,6 +28,8 @@ export const JWT_REFRESH_EXPIRE =
   (process.env.JWT_REFRESH_EXPIRE as string) || "7d";
 export const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID as string;
 export const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID as string;
+export const GITHUB_CLIENT_SECRET =
+  (process.env.GITHUB_CLIENT_SECRET as string) || "";
 export const FIREBASE_SERVICE_ACCOUNT = process.env
   .FIREBASE_SERVICE_ACCOUNT as string;
 export const FRONTEND_URL =

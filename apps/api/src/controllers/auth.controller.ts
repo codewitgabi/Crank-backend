@@ -31,6 +31,16 @@ export const googleLogin = catchAsync(async (req: Request, res: Response) => {
   return res.status(response.httpStatus).json(response);
 });
 
+export const githubOAuthExchange = catchAsync(
+  async (req: Request, res: Response) => {
+    const response = await authService.exchangeGithubOAuthCode(
+      req.body.code as string,
+      req.body.redirectUri as string,
+    );
+    return res.status(response.httpStatus).json(response);
+  },
+);
+
 export const githubLogin = catchAsync(async (req: Request, res: Response) => {
   const response = await authService.loginWithGithub(req.body.accessToken);
   return res.status(response.httpStatus).json(response);

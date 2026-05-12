@@ -76,6 +76,19 @@ export const GithubLoginSchema = [
   validateRequest,
 ];
 
+export const GithubExchangeSchema = [
+  body("code")
+    .isString()
+    .notEmpty()
+    .withMessage("GitHub authorization code is required"),
+  body("redirectUri")
+    .isString()
+    .trim()
+    .notEmpty()
+    .withMessage("redirectUri is required"),
+  validateRequest,
+];
+
 export const RefreshTokenSchema = [
   body("refreshToken").notEmpty().withMessage("Refresh token is required"),
   validateRequest,
